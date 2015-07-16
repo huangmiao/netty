@@ -25,10 +25,10 @@ public class NettyClient implements MyNettyClient{
 
 	@Override
 	public void connect(String host,int port) {
-		//配置客户端线程组
+		//config thread pool
         EventLoopGroup group=new NioEventLoopGroup();
         try{
-            //配置客户端启动辅助类
+            //config client aotu property
             Bootstrap b=new Bootstrap();
             b.group(group).channel(NioSocketChannel.class)
             .option(ChannelOption.TCP_NODELAY, true)
