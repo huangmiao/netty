@@ -27,11 +27,11 @@ public class NettyServer implements MyNettyServer{
 
 	@Override
 	public void bind(int port) {
-		  //配置NIO线程组
+		  //config nio thread group
         EventLoopGroup bossGroup=new NioEventLoopGroup();
         EventLoopGroup workerGroup=new NioEventLoopGroup();
         try{
-            //服务器辅助启动类配置
+        	//config client aotu property
             ServerBootstrap b=new ServerBootstrap();
             b.group(bossGroup, workerGroup)
             .channel(NioServerSocketChannel.class)
@@ -48,14 +48,13 @@ public class NettyServer implements MyNettyServer{
                     ch.pipeline().addLast(new NettyServerHandler());
                 }
             });
-            //绑定端口 同步等待绑定成功
+            //bind port wait..
             ChannelFuture f=b.bind(port).sync();
             //等到服务端监听端口关闭
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
 			e.printStackTrace();
 		}finally{
-            //优雅释放线程资源
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
