@@ -1,5 +1,8 @@
 package com.mhuang.server;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
@@ -15,6 +18,8 @@ import io.netty.util.ReferenceCountUtil;
 public class NettyServerHandler extends ChannelHandlerAdapter {
 
 	public static volatile Long countWidh = 0L;
+
+	public Logger logger = LoggerFactory.getLogger(getClass());
 	
 	/**
 	 * 
@@ -27,15 +32,19 @@ public class NettyServerHandler extends ChannelHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
+		logger.info("====receive and reply client data====");
+		logger.info("===receive waiting====");
+		logger.info("====begin nettyServer read data ====");
 		try{
-			System.out.println("====success====");
-			System.out.println((String) msg);
-			ctx.writeAndFlush("再见"+msg);
+			String msgStr = (String)msg;
+			logger.debug("print data:"+msg);
+			logger.info("====end nettyServer read data=====");
+			ctx.writeAndFlush("bye:"+msg);
+			logger.info("===receive ok====");
 		}finally{
 			ReferenceCountUtil.release(msg);
 		}
 	}
-	
 	
 	/**
 	 * 
@@ -46,9 +55,9 @@ public class NettyServerHandler extends ChannelHandlerAdapter {
 	 */
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+		System.out.println("====client connection sucess====");
 		Channel channel = ctx.channel();
 		System.out.println(channel.id().asLongText());
-		System.out.println("====server connection success====");
 		ctx.writeAndFlush("welcome to netty server"+(++countWidh));
 	}
 
@@ -63,6 +72,9 @@ public class NettyServerHandler extends ChannelHandlerAdapter {
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 			throws Exception {
+		if(!ctx.isRemoved()){
+			logger.info("====here reply exception message====");
+		}
 		cause.printStackTrace();
 		ctx.close();
 	}
