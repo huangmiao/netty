@@ -12,6 +12,8 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 
+import com.mhuang.common.Closeable;
+import com.mhuang.common.client.AbstractNettyClient;
 import com.mhuang.common.client.MyNettyClient;
 
 /**
@@ -21,7 +23,9 @@ import com.mhuang.common.client.MyNettyClient;
  * @date 2015年7月16日 下午2:55:36 
  * @version V1.0.0
  */
-public class NettyClient implements MyNettyClient{
+public class NettyClient extends AbstractNettyClient implements Closeable{
+	
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void connect(String host,int port) {
@@ -45,8 +49,7 @@ public class NettyClient implements MyNettyClient{
                 }
             });
             // Start the client.
-            ChannelFuture f=b.connect(host,port).sync();
-           
+            ChannelFuture f = b.connect(host,port).sync();
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
@@ -56,8 +59,18 @@ public class NettyClient implements MyNettyClient{
         }
 	}
 
+	@Override
+	public void connect() {
+		connect(host,port);
+	}
+	
 	public static void main(String[] args){
 		MyNettyClient nettyClient = new NettyClient();
 		nettyClient.connect("127.0.0.1", 8001);
+	}
+
+	@Override
+	public void close() {
+		// TODO close the client
 	}
 }

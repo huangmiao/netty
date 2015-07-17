@@ -11,5 +11,13 @@ import com.mhuang.common.model.Port;
  */
 public abstract class AbstractNettyServer extends Port implements MyNettyServer{
 
+	private static final long serialVersionUID = 1L;
+
+	public AbstractNettyServer(){}
+	
+	public AbstractNettyServer(int port){
+		super(port);
+	}
+	
 	//TODO 添加业务
 }

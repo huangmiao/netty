@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 /**
  * Hello world!
  *
@@ -20,12 +23,14 @@ public class App extends Thread
 			if(i==100){
 				break;
 			}
-			msgList.add("你好:"+(++i));
+			msgList.add("你好你你你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好:"+(++i));
 		}
 	}
 
+	public volatile static ApplicationContext applicationContext = null;
+	
 	public static void main( String[] args )
     {
-		new App().start();
+		applicationContext = new ClassPathXmlApplicationContext("spring.xml");
     }
 }

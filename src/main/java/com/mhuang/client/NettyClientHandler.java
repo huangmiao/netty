@@ -47,6 +47,7 @@ public class NettyClientHandler extends  ChannelHandlerAdapter{
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 			throws Exception {
 		cause.printStackTrace();
+		ctx.close();
 	}
 	
 	

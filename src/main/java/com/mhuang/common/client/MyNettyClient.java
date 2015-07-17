@@ -9,5 +9,7 @@ package com.mhuang.common.client;
  */
 public interface MyNettyClient{
 
+	public void connect();
+	
 	public void connect(String host,int port);
 }

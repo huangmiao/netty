@@ -9,5 +9,7 @@ package com.mhuang.common.server;
  */
 public interface MyNettyServer {
 
+	public void bind();
+	
 	public void bind(int port);
 }

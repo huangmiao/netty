@@ -4,4 +4,7 @@
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	">
+	<bean id="nettyServer" init-method="bind" destroy-method="close" class="com.mhuang.server.NettyServer">
+		<property name="port" value="8001"/>
+	</bean>
 </beans>
